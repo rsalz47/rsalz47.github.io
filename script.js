@@ -77,13 +77,15 @@ function openMinimized(id) {
 
 function chooseTitle() {
 	const quotes = [
-		"HACK THE PLANET",
-		"Hack the Stem",
-		"Off the Shoulder of Orion",
-		"Just For Phreaks",
-		"Scanners Live in Vain"
+		"RUN THE NET HACK THE PLANET"
+		// The rest of these felt a little tacky
+		// "Hack the Stem",
+		// "Fires Off the Shoulder of Orion",
+		// "Just For Phreaks",
+		// "Scanners Live in Vain",
+		// "Do It Harder, Make It Better"
 	];
-	return quotes[Math.floor(Math.random()*items.length)];
+	return quotes[Math.floor(Math.random() * quotes.length)];
 }
 
 $(document).ready(function(){
@@ -153,4 +155,6 @@ $(document).ready(function(){
 		}
     });		
 	adjustFullScreenSize();	
+
+	// document.getElementById("title").textContent = chooseTitle();
 });
