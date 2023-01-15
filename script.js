@@ -75,6 +75,17 @@ function openMinimized(id) {
 	});				
 }
 
+function chooseTitle() {
+	const quotes = [
+		"HACK THE PLANET",
+		"Hack the Stem",
+		"Off the Shoulder of Orion",
+		"Just For Phreaks",
+		"Scanners Live in Vain"
+	];
+	return quotes[Math.floor(Math.random()*items.length)];
+}
+
 $(document).ready(function(){
 	$(".window").each(function() {      		// window template
 		$(this).css('z-index',1000)

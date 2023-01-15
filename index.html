@@ -10,21 +10,26 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="script.js"></script>	
 	<link rel="stylesheet" type="text/css" href="style.css" />
-	<title>Windows Template</title>
+	<title primaryText={chooseTitle()}/>
 </head>
 <body>
 	<div id="desktop">
-		<div class="window" data-title="First">
+		<div class="window closed" data-title="First">
 			Window content
 		</div>
-		<div class="window" data-title="Second">
+		<div class="window closed" data-title="Second">
 			Second Window
 		</div>
 		<div class="window closed" data-title="Third">
 			Third window starts closed
 		</div>
-		<div class="window" data-title="Welcome">
-			<h1>Free Windows Template</h1>
+		<div class="window fullSizeWindow" data-title="Welcome">
+			<h1>Hello world!</h1>
+            <p>This is my personal website, which is currently a work-in-progress.</p>
+            <p>My site was made by using a template generously provided by 
+                <a href="https://html5-templates.com/" rel="nofollow" target="_blank" id="templateLink">&copy; HTML5-Templates.com</a>	
+            </p>
+            <p>Here's some instructions they provided for the UI:</p>
 			<p>Minimize the windows to the taskbar, make them full screen or close them.</p>
 			<p>Drag the title bar to move the windows or resize them from the bottom right corner.</p>
 			<hr />
@@ -40,7 +45,6 @@
 			<a class="openWindow" data-id="2">Open third</a>
 			<a class="openWindow" data-id="3">Welcome screen</a>
 		</div>
-		<!-- You can use this template freely if you leave a visible link to HTML5-Templates.com -->
 	</div>
 </body>
 
