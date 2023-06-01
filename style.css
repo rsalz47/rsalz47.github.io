@@ -4,8 +4,8 @@ body {
 }
 
 .logo-img {
-    width: 25px;
-    height: 25px;
+    width: 250px;
+    height: 250px;
 }
 
 .center {
@@ -15,9 +15,9 @@ body {
 } 
 
 .translucent-box {
-    background-color: rgba(204, 202, 235, 0.80);
+    background-color: rgba(74, 73, 91, 0.8);
     width: 80vw;
-    border: 10px solid rgb(76, 85, 93);
+    border: 5px solid rgb(28, 30, 31);
     padding: 20px;
     margin: auto;
 }
