@@ -1,11 +1,18 @@
 body {
-    background-color: rgb(142, 119, 212);
+    background-image: url('imgs/background.png');
+    background-size: cover;
 }
 
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+} 
+
 .translucent-box {
-    background-color: darkcyan;
+    background-color: rgba(204, 202, 235, 0.80);
     width: 80vw;
-    border: 5px slategray;
-    padding: 100px;
-    margin: 30px;
+    border: 10px solid rgb(76, 85, 93);
+    padding: 20px;
+    margin: auto;
 }
