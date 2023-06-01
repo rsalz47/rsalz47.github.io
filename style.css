@@ -4,5 +4,8 @@ body {
 
 .translucent-box {
     background-color: darkcyan;
+    width: 80vw;
     border: 5px slategray;
+    padding: 100px;
+    margin: 30px;
 }
