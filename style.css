@@ -3,6 +3,11 @@ body {
     background-size: cover;
 }
 
+.logo-img {
+    width: 250px;
+    height: 250px;
+}
+
 .center {
     display: block;
     margin-left: auto;
