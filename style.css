@@ -1,3 +1,8 @@
 body {
-    background-color: rgb(214, 157, 126);
+    background-color: rgb(142, 119, 212);
+}
+
+.translucent-box {
+    background-color: darkcyan;
+    border: 5px slategray;
 }
