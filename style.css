@@ -1,6 +1,11 @@
 body {
     background-image: url('imgs/background.png');
+    font-family: Georgia;
     background-size: cover;
+}
+
+.light-blue-text {
+    color:rgb(176, 217, 216);
 }
 
 .logo-img {
@@ -8,13 +13,41 @@ body {
     height: 250px;
 }
 
-.center {
+.centered {
     display: block;
     margin-left: auto;
     margin-right: auto;
 } 
 
-.translucent-box {
+ul.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li.navbar-item {
+    float: left;
+}
+
+li.navbar-item a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.navbar-item a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #04AA6D;
+}
+
+.translucent-text-box {
     background-color: rgba(74, 73, 91, 0.8);
     width: 80vw;
     border: 5px solid rgb(28, 30, 31);
