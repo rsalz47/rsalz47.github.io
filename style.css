@@ -1,9 +1,12 @@
 body {
     background-image: url('imgs/background.png');
-    font-family: Georgia;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     background-size: cover;
 }
 
+i {
+    float:right;
+}
 .light-blue-text {
     color:rgb(176, 217, 216);
 }
@@ -53,4 +56,13 @@ li.navbar-item a:hover:not(.active) {
     border: 5px solid rgb(28, 30, 31);
     padding: 20px;
     margin: auto;
+}
+
+i {
+    color: white;
+    font-size: 44px;
+  }
+
+i:hover {
+    color:rgb(180, 194, 194);
 }
