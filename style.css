@@ -1,41 +1,9 @@
-/* body {
-    background-image: url('imgs/background.png');
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    background-size: cover;
-}
-
-i {
-    float:right;
-}
-
-.active {
-    background-color: #04AA6D;
-}
-
-.translucent-text-box {
-    background-color: rgba(74, 73, 91, 0.8);
-    max-width: 75%;
-    border: 5px solid rgb(28, 30, 31);
-    padding: 20px;
-    margin-left: 10%;
-}
-
-i {
-    color: white;
-    font-size: 44px;
-    margin: auto;
-  }
-
-i:hover {
-    color:rgb(180, 194, 194);
-}
-*/
 .sidebar {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 125px;
-    height: 100%;
+    bottom: 0px; 
     transition: all 0.5s ease;
     background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid #613261;
@@ -56,32 +24,18 @@ i:hover {
 
 body {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    grid-template-columns: 125px repeat(4, 1fr) 1fr;
+    grid-gap: 10px;
+    margin-right: 10px; 
     background-image: url('imgs/background.png');
     align-items: left;
 }
-  
-#sidebar {
-    grid-area: 1 / 1 / 6 / 2; 
-    position: fixed;
-    height: 100%;
-    max-width: 100%;
-    align-items: center; /*i think this works*/
-}
-  
-#nav-item {
-max-width: 90%;
-}
-  
+
 .translucent-text-box {
     background-color: rgba(74, 73, 91, 0.8);
     border: 5px solid rgb(28, 30, 31);
-    padding: 20px;
-    grid-area: 1 / 2 / 6 / 6;
-    max-width: auto;
+    grid-area: 1 / 2 / auto / span 5; 
+    padding: 20px; 
 }
 
 .logo-img {
