@@ -1,0 +1,25 @@
+body {
+    background-image: url("imgs/background.png");
+}
+
+.sidebar {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #613261;
+}
+
+.translucent-text-box {
+    background-color: rgba(74, 73, 91, 0.8);
+    border: 5px solid rgb(28, 30, 31);
+    color:rgb(176, 217, 216);
+}
+
+.button {
+    background-color: rgba(74, 73, 91, 0.8);
+    border-color: #613261;
+    color:rgb(176, 217, 216);
+}
+
+.link {
+    color:rgb(176, 217, 216);
+    text-decoration: none;
+}
