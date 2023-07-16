@@ -23,3 +23,15 @@ body {
     color:rgb(176, 217, 216);
     text-decoration: none;
 }
+
+[aria-describedby="footnote-label"]::after {
+    color:rgb(176, 217, 216);
+    text-decoration: underline; /* 5 */
+}
+
+/**
+* Highlight target note
+*/
+footer :target {
+    background: rgba(143, 100, 140, 0.639);
+}
