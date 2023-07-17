@@ -21,5 +21,9 @@ body {
 
 .link {
     color: #ffd6b3;
+}
+
+.button-link {
+    color: #ffd6b3;
     text-decoration: none;
 }

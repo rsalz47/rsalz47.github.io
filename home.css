@@ -21,6 +21,10 @@ body {
 
 .link {
     color:rgb(176, 217, 216);
+}
+
+.button-link {
+    color: rgb(176, 217, 216);
     text-decoration: none;
 }
 

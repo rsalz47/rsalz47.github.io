@@ -2,25 +2,27 @@
 <html lang="jp">
     <head>
         <title id="title">Swillion</title>
-        <link rel="icon" type="image/x-icon" href="imgs/xenogears-x_1.ico">
-        <link rel="stylesheet" type="text/css" href="home.css">
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="icon" type="image/x-icon" href="/imgs/xenogears-x_1.ico">
+        <link rel="stylesheet" type="text/css" href="/home.css">
+        <link rel="stylesheet" type="text/css" href="/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
 
     <body>
         <div class="sidebar">
-            <a href="index.html"><img class="logo-img" src="imgs/logo.png" alt="My personal logo"></a>
+            <a href="/index.html"><img class="logo-img" src="/imgs/logo.png" alt="My personal logo"></a>
             
             <br>
 
-            <div class="button side-item">
-                <a class="link" href="./projects.html">Projects</a>
+            <div class="button">
+                <a class="button-link" href="/projects.html">Projects</a>
             </div>
 
-            <div class="button side-item">Blog</div>
+            <div class="button">
+                <a class="button-link" href="/blog.html">Blog</a>
+            </div>
 
-            <div class="side-item">
+            <div>
                 <a href="https://github.com/rsalz47"><i class="fa-brands fa-github fa-xl"></i></a>
                 <a href="https://twitter.com/rsalz47"><i class="fa-brands fa-twitter fa-xl"></i></a>
             </div>
@@ -40,14 +42,18 @@
                     <a href="#sidechannel" aria-describedby="footnote-label" id="electrical-ref">former.</a> 
                     I have projects that focus on system design and implementation, such as a software simulation of a 
                     <a href="#cpu" aria-describedby="footnote-label" id="cpu-ref">MIPS-1 CPU</a>, a 
-                    <a href="#compiler" aria-describedby="footnote-label" id="compiler-ref">bytecode compiler written in Java</a>, 
+                    <a href="#compiler" aria-describedby="footnote-label" id="compiler-ref">tree-walk interpreter written in Java</a>, 
                     and a rudimentary kernel. 
                 </p>
 
                 <p>
-                    Though perhaps hard to believe, I also do things for fun sometimes. I'm an (out of practice) sabre fencer, and 
-                    uhhh
+                    Beyond work, I also sit in front of screens recreationally. I'm a fan of unique narratives in interactive
+                    mediums, and play a lot of games that fit this bill. I often work through long game series in order and
+                    write about my opinions as they go on, which you can find under the 
+                    <a class="link" href="/blog.html">Blog section of this website</a>.
                 </p>
+
+
 
                 <br>
                 <br>
@@ -60,17 +66,17 @@
                         <li id="sidechannel">
                             I'm no stranger to firmware dumping through UART or SPI, but timing attacks
                             and glitching... thar be dragons. 
-                             <a href="#electrical-ref" aria-label="Back to content"> &#8617</a>
+                             <a class="link" href="#electrical-ref" aria-label="Back to content"> &#8617</a>
                         </li>
 
                         <li id="cpu">
-                            You can read about a neat little CPU in <a href="projects.html">this blog post!</a>
-                            <a href="#cpu-ref" aria-label="Back to content"> &#8617</a>
+                            You can read about that neat little CPU in <a class="link" href="/proj/ilyr3k.html">this blog post!</a>
+                            <a class="link" href="#cpu-ref" aria-label="Back to content"> &#8617</a>
                         </li>
 
                         <li id="compiler">
-                            Sneak a peek at this nifty compiler in <a href="projects.html">that blog post!</a>
-                            <a href="#compiler-ref" aria-label="Back to content"> &#8617</a>
+                            Sneak a peek at this nifty interpreter in <a class="link" href="/projects.html">that blog post!</a>
+                            <a class="link" href="#compiler-ref" aria-label="Back to content"> &#8617</a>
                         </li>
                     </ol>
                 </footer>
