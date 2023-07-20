@@ -31,10 +31,10 @@
         <hr>
 
         <h2>
-            Started: March 2023, in collaboration with 
+            Project Started: March 2023, in collaboration with 
             <a class="link" href="https://github.com/Srinanda-Yallapragada">Srinanda-Yallapragada</a>
             and
-            <a class="link" href="https://github.com/qjyr">qjyr</a>
+            <a class="link" href="https://github.com/qjyr">alwaysblue</a>
         </h2>
         <h3>
             <a class="link" href="https://github.com/rsalz47/i-love-you-r3000">Repository</a>
@@ -42,6 +42,7 @@
 
         <hr>
 
+        <!-- This wasn't as funny as I had hoped :(
         <h2>Part 0: Wary of Wizards</h2>
         <p>
             I think more folks should have a think about what goes on inside computers. We know what some bits do thanks
@@ -57,29 +58,166 @@
         </p>
 
         <p>
-            What I found was tomes of black magic and the speech there was speech of witchcraft and black magic. something something wizards
+            What I found was tomes of black magic and the speech there was speech of witchcraft and black magic. 
+            CPUs are-- supposedly-- made from a particular type of sand. This sand is then tempered in an alchemical 
+            reaction that helps induce the flow of invisi
             <br>
-            a skilled group carves magic runes into small particles of special sand, coercing the flow
-            of special unseeable particles that power the world? Poppycock! That's ridiculous! Someone's lying 
-            and I'll figure out this nonsense myself. Oh, whoops, can't, because silicon fab is sixty bajillion dollars.
-
         </p>
 
+        <hr> 
+        -->
+
+        <div id="part1">
+            <h2>Part 1: Before I Forget, Memory</h2>
+            <p>
+                A CPU needs information to process if its name is to be believed. There's a slight issue, however: the 
+                processor itself has no capacity to store information; its only capabilities are to take in fixed-length
+                <a class="link" href="#word-size" aria-describedby="footnote-label" id="word-size-ref">
+                    sequences of bits, called <b>words</b>,
+                </a>
+                perform some basic mathematical operation on them, and send the result on its way to someplace outside
+                of itself. Because of this, the CPU needs a place to remember the stuff it still needs to work on as
+                well as a place to remember the stuff it already has worked on-- it needs a memory.
+            </p>
+
+            <p>
+                In this project, we utilized three layers of memory, the first and 
+                <a class="link" href="#hierarchy" aria-describedby="footnote-label" id="hierarchy-ref">lowest</a> 
+                of which being <b>RAM</b>. RAM is architecturally structured in grids with 
+                <a class="link" href="#line" aria-describedby="footnote-label" id="line-ref">rows and columns,</a> 
+                with rows typically containing some handful (4-8) words within them. This division of rows into
+                handfuls of words has obvious benefits: instead of picking out precisely what bits from
+                a given row we want to extract-- a very expensive operation in hardware-- we can just specify a small integral 
+                number to select a particular word in a particular row.
+            </p>
+
+            <img src="/imgs/memory-ram.png" style="width: 500px; height: 200px;">
+            
+            <p>
+                Programmatically, we implemented RAM as a two dimensional array. This not only mirrors the
+                hardware organization, but also saves us some headache. Since we work with a small number of
+                words per row, we can use the second index of the array to choose which word of a given row we want.
+                Thus, our 2D array is
+                <a class="link" href="#address-space-size" aria-describedby="footnote-label" id="address-space-size-ref">
+                    <code>RAM[RowNum][WordInRow]</code>.
+                </a>
+                This is much more manageable then thinking of all the possible shifts that would be
+                necessary to extract one particular bit!
+            </p>
+
+            <p>
+                Our next layer of memory on top of that was a <b>cache</b>. A cache is like a memory cheat-sheet: it
+            records a small list of places in memory we've recently been, as well as the values stored there. 
+            Despite their simple purpose, caches become one of the most important structures in optimizing performance.
+            Caches are placed physically closer to the CPU than RAM and thus take less time to talk to. If we go to 
+            retrieve some data from an address and it happens to be in the cache, then we cut our trip short and
+            save some time. By intelligently picking what and when to write stuff down, you can end up taking
+            many a shortcut on trips out to memory.
+            <br>
+            Our CPU was supported by a <b>write-through, no allocate</b> cache. This means that when we go to put
+            processed data back into memory, we copy down the new value to both the cache and the write-through. 
+            Importantly, however, we only copy the new value to the cache <i>if it is currently there</i>. 
+            There are a myriad of other policies caches can implement besides write-through, no allocate,
+            as well as a large conversation of how you actually write down the places you've been, but I 
+            am glossing over those details for the purposes of
+            <a class="link" href="#suite-caches" aria-describedby="footnote-label" id="suite-caches-ref">this post.</a>
+            </p>
+            <p>
+                The final level of memory we implemented was a set of 16 <b>registers</b>. Registers are super close
+                to the CPU and as such have almost zero transit time when delivering words to the processor.
+                In comparison to RAM and cache, registers aren't generally thought of as storage. They're more
+                akin to the scratchpad the CPU works on when processing data. Registers are responsible for 
+                holding the stuff the CPU is immediately about to process, as well as hold the result
+                of the CPU's processing immediately after computation. As such, registers get used the 
+                most out of any other memory component and generally the more of these you have on hand the better.
+                Some registers are reserved for special kinds of functions, with the main one of note being the
+                instruction register, or IR. The job of the IR is to track what piece of data the CPU
+                is currently looking at, so we know where to look for the next piece of data. If we think
+                of data living in memory sequentially, with Data 1 at RAM[0][0] and Data 2 at RAM[0][1], 
+                then after we process Data 1, we increment the IR one step so we know to go get Data 2
+                at the next index. Registers are also the part of memory that is most affected by how big a
+                word is. Since registers are responsible for feeding words into a CPU, they are the same
+                size as a word.
+                <br>
+                In our project, we had a word size of 32 bits. Because of this, we were able to codify
+                registers as an array that stored 32 bits each. Each index would correspond to one specific
+                register.
+            </p>
+
+            <p>
+                When simulating the CPU's interactions with memory, we wanted to make sure this idea
+                of on-chip distance carried over. To do this, we simply waited an increasing amount of 
+                time as we asked to retrieve memory from further and further components. Registers spent
+                no time waiting, whereas cache and RAM would spend 1 and 10 seconds respectively stalling.
+            </p>
+        </div>
+
         <hr>
 
-        <h2>Part 1: Before I Forget, Memory</h2>
+        <div id="part2">
+            <h2>Part 2: Becoming Instructable</h2>
+            <p>
+                Now that we've established <i>where</i> we store things, it's time to think about <i>what</i>
+                we'll be storing. We introduced the idea of words before, but what do words really say? They tell
+                the CPU what to do through information called <b>instructions</b>. Instructions are special 
+                sequences of bits that a CPU is designed to recognize. For example, if I feed a specific CPU the
+                sequence of bits 01001 001 010, it will interpret that as an instruction to add the values 1 and 2.
+                CPU designers publish <b>instruction set architectures</b>, or <b>ISAs</b>, to describe the format and 
+                structure of sequences specific CPUs can interpret. Each ISA has its own structure describing the size
+                instructions could be, as well as how different parts of a bit sequence translate to adding or comparing
+                two values.
+            </p>
+
+            <p>
+                Our simulated CPU understood the MIPS-1 ISA. MIPS-1 has a fixed 32-bit word size, meaning that every
+                instruction had to fit within 32 bits; anything larger than that would be malformed and the CPU would
+                be unable to process it. Let's take a look at an example of a MIPS-1 instruction to see how this works.
+            </p>
+            <img src="/imgs/mips-instruction.png" alt="MIPS-1 arithmetic instruction format">
+            <p>
+                We can see here how the 32 bits of one instruction are split up. The first 6 bits, or "op" field, 
+                correspond what operation is performed. This would mean that something like 000001 corresponds to
+                addition, 000010 corresponds to subtraction, etc. The next three fields describe what registers are involved
+                in the operation to perform. The first two are the registers to use as operands for the operation, and the
+                third is the register to store the result into. The last two fields encode operation specific information,
+                such as the amount to shift for logical operations, so we can gloss over those. To put this idea into practice,
+                here is an instruction that subtracts registers 1 and 4 and stores it in register 3 (R3 = R1 - R4):
+                <br>
+                000010 00001 00100 00011 00000 000000
+            </p>
+
+            <p>
+                Now, hand writing instructions in this format is a punishment fit for Guantanamo, so we quickly
+                developed a tool that can help automate this process. It is the job of an <b>assembler</b> to take
+                assembly, a kind of ultra-simple programming language, and turn it into these 
+                <a class="link" href="#compilers" aria-describedby="footnote-label" id="compilers-ref">
+                    one word instructions.
+                </a>
+                So, instead of having to write the above instruction in binary format, we can write the much more 
+                understandable <code>sub r1 r4 r3</code>, feed that to the assembler, and it emits the above binary
+                value. Don't believe me? 
+                <a class="link" href="https://github.com/rsalz47/i-love-you-r3000/blob/main/docs/Assembler.md">
+                    Try it out yourself and prove me wrong!
+                </a>
+            </p>
+        </div>
+        
+        <hr>
+
+        <div id="part3">
+            <h2>Part 3: Endless Cycles</h2>
+        </div>
+        
 
         <hr>
 
-        <h2>Part 2: Spin Cycle</h2>
+        <div id="part4">
+            <h2>Part 4: Pipelining and Plumbing</h2>
+        </div>
 
         <hr>
 
-        <h2>Part 3: Plumbers Don't Wear Ties</h2>
-
-        <hr>
-
-        <h2>Part 4: Conclusions </h2>
+        <h2>Part F: For the Future </h2>
         <br>
         <br>
 
@@ -88,9 +226,47 @@
         <footer>
             <ol>
                 <h2 id="footnote-label"></h2>
-                <li id="emails-ohno">
-                    Truly, these are wretched devices. 
-                    <a class="link" href="#emails-ohno-ref" aria-label="Back to content">&#8617</a>
+                <li id="word-size">
+                    A CPU's <b>word size</b> is length of the sequence of bits it can handle at once. When you
+                    hear about "32-bit" vs. "64-bit" CPU architectures, they are referring to its word size.
+                    <a class="link" href="#word-size-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="hierarchy">
+                    I use the term "lowest"-- and will go on to describe stuff vertically-- because
+                    of an idea known as the memory hierarchy. The core idea is that memory simultaneously widens
+                    and slows down as you get farther away from the CPU. This creates a natural pyramidal
+                    structure when visualizing memory, with each smaller level sitting on top of a bigger one.
+                    <a class="link" href="#hierarchy-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="line">
+                    Rows of memories are also interchangeably called <b>lines</b>, and in my experience
+                    line is the more common term.
+                    <a class="link" href="#line-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="address-space-size">
+                    With everything we've seen thus far, we can define yet another useful quantity: memory size.
+                    If each row of memory has W words consisting of B bits in C columns, then you have a total
+                    of WBC bits, or WBC/8 bytes of addressable memory.
+                    <a class="link" href="#address-space-size-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="suite-caches">
+                    For those particularly upset by this decision, I am planning a thorough
+                    benchmarking project exploring different associativity levels and caching policies. Its
+                    accompanying blog post will be stuffed with cache money jargon.
+                    <a class="link" href="#suite-caches-ref">&#8617</a>
+                </li>
+
+                <li id="compilers">
+                    The astute reader might notice that we don't write code in assembly, but rather
+                    programming languages. This is because there exists a miracle tool known as a
+                    compiler that takes languages like Java, Ruby and Rust, and gradually turns
+                    them into assembly and instructions. They are incredibly complex, but totally
+                    worth a look at.
+                    <a class="link" href="#compilers-ref" aria-label="Back to content">&#8617</a>
                 </li>
             </ol>
         </footer>
