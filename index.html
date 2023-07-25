@@ -22,6 +22,10 @@
                 <a class="button-link" href="/blog.html">Blog</a>
             </div>
 
+            <div class="button">
+                <a class="button-link" href="/gunpla.html">Gunpla</a>
+            </div>
+
             <div>
                 <a href="https://github.com/rsalz47"><i class="fa-brands fa-github fa-xl"></i></a>
                 <a href="https://twitter.com/rsalz47"><i class="fa-brands fa-twitter fa-xl"></i></a>
@@ -29,57 +33,66 @@
         </div>
 
         <div class="translucent-text-box">
-            <h1>About</h1>
-            <hr>
-                <h2>
-                    Hey there. I'm a reverse engineer by trade and a tech junkie by choice. 
-                </h2>
+            <div id="about">
+                <h1>Hey there. I'm a reverse engineer by trade and a tech junkie by choice.</h1>
+                
                 <p>
+                    You might've seen me around the net as Ronan, Swillion, or R$; I'm a man of 
+                    <a href="#many-hats" aria-describedby="footnote-label" id="many-hats-ref">many hats</a> 
                     I've got two fancy papers in Computer Science from The University of Massachusetts, Amherst
                     that say I'm certified to sit behind a screen, and I've developed a great deal of
-                    expertise in that regard. My professional interests lie in low-level security along the software-hardware line, with preference tipping ever
-                    so slightly towards the 
+                    expertise in that regard. My professional interests lie in low-level security along the software-hardware line, 
+                    with preference tipping slightly towards the 
                     <a href="#sidechannel" aria-describedby="footnote-label" id="electrical-ref">former.</a> 
                     I have projects that focus on system design and implementation, such as a software simulation of a 
                     <a href="#cpu" aria-describedby="footnote-label" id="cpu-ref">MIPS-1 CPU</a>, a 
                     <a href="#compiler" aria-describedby="footnote-label" id="compiler-ref">tree-walk interpreter written in Java</a>, 
-                    and a rudimentary kernel. 
+                    and a rudimentary kernel. I also think giant robots are pretty damn sick.
                 </p>
 
                 <p>
-                    Beyond work, I also sit in front of screens recreationally. I'm a fan of unique narratives in interactive
-                    mediums, and play a lot of games that fit this bill. I often work through long game series in order and
-                    write about my opinions as they go on, which you can find under the 
-                    <a class="link" href="/blog.html">Blog section of this website</a>.
+                    On the left hand side, you can see a sidebar that helps you navigate to the other slices of my site. The
+                    <b>Projects</b> tab contains writeups and repository links for any technical work I think is worth sharing;
+                    the <b>Blog</b> tab is for anything I'd like to talk about, whether that be my reaction to a movie I've seen
+                    or short story ideas that I want to write down; the <b>Gunpla</b> tab has pictures of my latest hobby, building
+                    and customizing plastic models of the aforementioned awesome giant robots. I'll post site updates on this main
+                    page, so check in once in a while to see what's new. I always appreciate it when you take the time to stop by.
                 </p>
+            </div>
 
+            <hr>
+            
+            <div id="updates">
+                <h1>Updates</h1>
+                <h3>7/24/2023 - Finished Project Post About R3K CPU-- first project writeup :)</h3>
+            </div>
 
+            <hr>
 
-                <br>
-                <br>
-
-                <hr>
-
+            <div id="footnotes">
                 <footer>
                     <ol>
-                        <h2 id="footnote-label"></h2>
-                        <li id="sidechannel">
-                            I'm no stranger to firmware dumping through UART or SPI, but timing attacks
-                            and glitching... thar be dragons. 
-                             <a class="link" href="#electrical-ref" aria-label="Back to content"> &#8617</a>
+                        <li id="many-hats">
+                            I mean this literally. I own many hats.
                         </li>
-
+                        <li id="sidechannel">
+                            I'm no stranger to firmware dumping and talking SPI or UART with embedded devices, but once
+                            things head towards side channels they quickly exit my wheelhouse. 
+                            <a class="link" href="#electrical-ref" aria-label="Back to content"> &#8617</a>
+                        </li>
+    
                         <li id="cpu">
                             You can read about that neat little CPU in <a class="link" href="/proj/ilyr3k.html">this blog post!</a>
                             <a class="link" href="#cpu-ref" aria-label="Back to content"> &#8617</a>
                         </li>
-
+    
                         <li id="compiler">
-                            Sneak a peek at this nifty interpreter in <a class="link" href="/projects.html">that blog post!</a>
+                            As of right now, I haven't pushed this repo remotely yet. I'll get on that Soon&trade;.
                             <a class="link" href="#compiler-ref" aria-label="Back to content"> &#8617</a>
                         </li>
                     </ol>
                 </footer>
+            </div>
         </div>
 
     </body>

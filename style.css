@@ -4,21 +4,24 @@ body {
     grid-gap: 10px;
     margin-right: 10px; 
     align-items: left;
+    margin-top: 0px; 
+    margin-left: 0px; 
 }
 
 .sidebar {
-    position: absolute;
     top: 0;
     left: 0;
     width: 125px;
     bottom: 0px; 
     border-top: 0px;
     border-left: 0px;
+    min-height: 98vh;
 }
 
 .translucent-text-box {
     grid-area: 1 / 2 / auto / span 5; 
     padding: 20px; 
+    margin-top: 10px; 
 }
 
 .button {
