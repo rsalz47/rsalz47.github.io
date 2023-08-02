@@ -1,5 +1,6 @@
 body {
-    background-image: url("imgs/projects-background.png");
+    background-image: url("/imgs/projects-background.png");
+    background-size: cover;
 }
 
 .sidebar {

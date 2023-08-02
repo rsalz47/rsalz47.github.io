@@ -1,0 +1,30 @@
+body {
+    background-image: url("/imgs/nisan-cathedral.jpg");
+    background-size: cover;
+}
+
+.sidebar {
+    background-color: rgba(120, 78, 44, 0.5);
+    border: 1px solid #f5ff9c;
+}
+
+.translucent-text-box {
+    background-color: rgba(136, 138, 105, 0.701);
+    border: 5px solid #f5ff9c;
+    color: #fff2e8;
+}
+
+.button {
+    background-color: #bfa86d;
+    border-color:  #676565;
+    color: #f4e6db;
+}
+
+.link {
+    color: #ffd6b3;
+}
+
+.button-link {
+    color: #ffffff;
+    text-decoration: none;
+}
