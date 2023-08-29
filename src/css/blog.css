@@ -5,17 +5,17 @@ body {
 
 .sidebar {
     background-color: #0d0b057d;
-    border: 1px solid #f5ff9c;
+    border: 1px solid #5f6246;
 }
 
 .translucent-text-box {
-    background-color: rgba(136, 138, 105, 0.701);
-    border: 5px solid #f5ff9c;
-    color: #fff2e8;
+    background-color: #0d0b057d;
+    border: 5px solid #5f6246;
+    color: #ffffff;
 }
 
 .button {
-    background-color: #bfa86d;
+    background-color: #89835a8e;
     border-color:  #676565;
     color: #f4e6db;
 }
@@ -25,6 +25,6 @@ body {
 }
 
 .button-link {
-    color: #ffffff;
+    color: #dcfcfe;
     text-decoration: none;
 }
