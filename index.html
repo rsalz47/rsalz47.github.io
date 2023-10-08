@@ -2,12 +2,15 @@
 <html lang="jp">
     <head>
         <title id="title">Swillion</title>
+        
         <link rel="icon" type="image/x-icon" href="/imgs/xenogears-x_1.ico">
         <link rel="stylesheet" type="text/css" href="/src/css/home.css">
         <link rel="stylesheet" type="text/css" href="/src/css/base.css">
+
+        <script src="/src/js/manageUpdateSection.js" type="text/javascript"></script>
     </head>
 
-    <body>
+    <body onload="init()">
         <div class="sidebar">
             <a href="/index.html"><img class="logo-img" src="/imgs/logo.png" alt="My personal logo"></a>
             
@@ -57,33 +60,13 @@
 
             <hr>
             
-            <div id="updates">
+            <div id="update-section">
                 <h1>Updates</h1>
+                
+                <div id="update-list"></div>
 
                 <h3>
-                    10/3/2023 - <a href="/src/html/gunpla/lfrith.html" class="link">"Lfrith" build</a> now available in Gunpla Tab
-                </h3>
-
-                <h3>
-                    10/1/2023 - <a href="/src/html/blog/xenoyear/part0.html" class="link">"Xenoyear Part 0"</a> Blog Post Available
-                </h3>
-                
-                <h3>
-                    9/24/2023 - <a href="/src/html/gunpla/evas.html" class="link">"Evangelion Units 01 and 02" build</a> 
-                    available in Gunpla Tab, Revamped Blog Tab
-                </h3>
-                
-                <h3>
-                    9/20/2023 - <a href="/src/html/gunpla/char-zaku-ii.html" class="link">"Char's Zaku II" build</a> available in
-                    Gunpla Tab
-                </h3>
-                
-                <h3>
-                    8/28/2023 - Blog Homepage Finished
-                </h3>
-                
-                <h3>
-                    7/24/2023 - Project Writeup of R3k CPU Now Available
+                    <a href="javascript:void(0);" class="link" id="more-updates" onclick="getNextUpdateBatch()">Older updates</a>
                 </h3>
             </div>
 
