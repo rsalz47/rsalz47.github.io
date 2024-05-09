@@ -1,5 +1,11 @@
 [
     {
+        "date": "[5-8-2024]",
+        "hyperlink":"My thoughts on the Gurren Lagann movies",
+        "path":"/src/html/blog/gurren-lagann-movies.html",
+        "description":"just went up in the Blog tab. Spoiler: the series rocks."
+    },
+    {
         "date": "[10-7-2023]",
         "description":"Revamped how updates are done on the home page. Formatting is different, and now has a fancy \"more\" button to see old updates."
     },
