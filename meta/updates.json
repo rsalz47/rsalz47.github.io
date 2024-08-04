@@ -1,5 +1,11 @@
 [
     {
+        "date": "[8-4-2024]",
+        "hyperlink": "The Sopranos was absolutely phenomenal,",
+        "path": "/src/html/blog/sopranos.html",
+        "description": "and I wrote down some thoughts about it on my blog."
+    },
+    {
         "date": "[5-8-2024]",
         "hyperlink":"My thoughts on the Gurren Lagann movies",
         "path":"/src/html/blog/gurren-lagann-movies.html",
