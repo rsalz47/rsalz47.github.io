@@ -1,23 +1,23 @@
 body {
-    background-image: url("/imgs/mechonis-central-factory.png");
+    background-image: url("/imgs/acff-purple.webp");
     background-size: cover;
 }
 
 .sidebar {
-    background-color: rgba(242, 242, 132, 0.5);
-    border: 1px solid #f5ff9c;
+    background-color: rgba(177, 100, 207, 0.5);
+    border: 1px solid #a71973;
 }
 
 .translucent-text-box {
-    background-color: rgba(136, 138, 105, 0.701);
-    border: 5px solid #f5ff9c;
-    color: #fff2e8;
+    background-color: rgba(61, 45, 73, 0.683);
+    border: 5px solid #a71973;
+    color: #ffffff;
 }
 
 .button {
-    background-color: #bfa86d;
+    background-color: #bf6d8c;
     border-color:  #676565;
-    color: #f4e6db;
+    color: #ffffff;
 }
 
 .link {
