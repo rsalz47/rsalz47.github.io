@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>I Love You R3K</title>
+    <link rel="icon" type="image/x-icon" href="/imgs/xenogears-x_1.ico">
+    <link rel="stylesheet" type="text/css" href="/projects.css">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <a href="/index.html">
+            <img class="logo-img" src="/imgs/logo.png" alt="My personal logo">
+        </a>
+        
+        <br>
+
+        <div class="button">
+            <a class="button-link" href="/proj/projects.html">Projects</a>
+        </div>
+
+        <div class="button">
+            <a class="button-link" href="/blog/blog.html">Blog</a>
+        </div>
+
+        <div class="button">
+            <a class="button-link" href="/gunpla/gunpla.html">Gunpla</a>
+        </div>
+    </div>
+
+    <div class="translucent-text-box">
+        <h1>I Love You R3000: A C++-based Simulation of the R3000 CPU</h1>
+
+        <hr>
+
+        <h2>
+            Project Started: March 2023, in collaboration with 
+            <a class="link" href="https://github.com/Srinanda-Yallapragada">Srinanda-Yallapragada</a>
+            and
+            <a class="link" href="https://github.com/qjyr">alwaysblue</a>
+        </h2>
+        <h3>
+            <a class="link" href="https://github.com/rsalz47/i-love-you-r3000">Repository</a>
+        </h3>
+
+        <hr>
+
+        <!-- This wasn't as funny as I had hoped :(
+        <h2>Part 0: Wary of Wizards</h2>
+        <p>
+            I think more folks should have a think about what goes on inside computers. We know what some bits do thanks
+            to the gift of UI and UX: they draw silly pictures, play sounds and deliver emails that 
+            <a class="link"  href="#emails-ohno" aria-describedby="footnote-label" id="emails-ohno-ref">need to be read.</a> 
+            These functionalities aren't self-describing, though: we know nothing about how these parts are 
+            A modern non-technical person may be familiar with some of the initial details of software, that programs exist
+            as little slices of resources alongside an operating system that manages them, but even this is abstracting out 
+            the parts that-- in my opinion-- are most mysterious. What does it mean for a program to "run"? 
+            It sure as h*ck doesn't have legs, so someone has some explaining to do! Some folks might have heard the term
+            "CPU"  before, but what  is it and how can something exist <i>on</i> it? I spent a good few nights Wikipedia 
+            diving and researching documentation to this end.
+        </p>
+
+        <p>
+            What I found was tomes of black magic and the speech there was speech of witchcraft and black magic. 
+            CPUs are-- supposedly-- made from a particular type of sand. This sand is then tempered in an alchemical 
+            reaction that helps induce the flow of invisi
+            <br>
+        </p>
+
+        <hr> 
+        -->
+
+        <div id="part1">
+            <h2>Part 1: Before I Forget, Memory</h2>
+            <p>
+                A CPU needs information to process if its name is to be believed. There's a slight issue, however: the 
+                processor itself has no capacity to store information; its only capabilities are to take in fixed-length
+                <a class="link" href="#word-size" aria-describedby="footnote-label" id="word-size-ref">
+                    sequences of bits, called <b>words</b>,
+                </a>
+                perform some basic mathematical operation on them, and send the result on its way to someplace outside
+                of itself. Because of this, the CPU needs a place to remember the stuff it still needs to work on as
+                well as a place to remember the stuff it already has worked on-- it needs a memory.
+            </p>
+
+            <p>
+                In this project, we utilized three layers of memory, the first and 
+                <a class="link" href="#hierarchy" aria-describedby="footnote-label" id="hierarchy-ref">lowest</a> 
+                of which being <b>RAM</b>. RAM is architecturally structured in grids with 
+                <a class="link" href="#line" aria-describedby="footnote-label" id="line-ref">rows and columns,</a> 
+                with rows typically containing some handful (4-8) words within them. This division of rows into
+                handfuls of words has obvious benefits: instead of picking out precisely what bits from
+                a given row we want to extract-- a very expensive operation in hardware-- we can just specify a small integral 
+                number to select a particular word in a particular row.
+            </p>
+
+            <img src="/imgs/memory-ram.png" style="width: 500px; height: 200px;">
+            
+            <p>
+                Programmatically, we implemented RAM as a two dimensional array. This not only mirrors the
+                hardware organization, but also saves us some headache. Since we work with a small number of
+                words per row, we can use the second index of the array to choose which word of a given row we want.
+                Thus, our 2D array is
+                <a class="link" href="#address-space-size" aria-describedby="footnote-label" id="address-space-size-ref">
+                    <code>RAM[RowNum][WordInRow]</code>.
+                </a>
+                This is much more manageable then thinking of all the possible shifts that would be
+                necessary to extract one particular bit!
+            </p>
+
+            <p>
+                Our next layer of memory on top of that was a <b>cache</b>. A cache is like a memory cheat-sheet: it
+            records a small list of places in memory we've recently been, as well as the values stored there. 
+            Despite their simple purpose, caches become one of the most important structures in optimizing performance.
+            Caches are placed physically closer to the CPU than RAM and thus take less time to talk to. If we go to 
+            retrieve some data from an address and it happens to be in the cache, then we cut our trip short and
+            save some time. By intelligently picking what and when to write stuff down, you can end up taking
+            many a shortcut on trips out to memory.
+            <br>
+            Our CPU was supported by a <b>write-through, no allocate</b> cache. This means that when we go to put
+            processed data back into memory, we copy down the new value to both the cache and RAM; the value
+            is "written through" the cache down to the lowest level of memory. 
+            Importantly, however, we only copy the new value to the cache <i>if it is currently there</i>. 
+            In the case that the new value does not exist in the cache, then we completely ignore the cache
+            and only record the change in RAM. 
+            There are a myriad of other policies caches can implement besides write-through, no allocate,
+            as well as a large conversation of how you actually record down the places you've been, but I 
+            am glossing over those details for the purposes of
+            <a class="link" href="#suite-caches" aria-describedby="footnote-label" id="suite-caches-ref">this post.</a>
+            </p>
+            <p>
+                The final level of memory we implemented was a set of 16 <b>registers</b>. Registers are super close
+                to the CPU and as such have almost zero transit time when delivering words to the processor.
+                In comparison to RAM and cache, registers aren't generally thought of as storage. They're more
+                akin to the scratchpad the CPU works on when processing data. Registers are responsible for 
+                holding the stuff the CPU is immediately about to process, as well as hold the result
+                of the CPU's processing immediately after computation. As such, registers get used the 
+                most out of any other memory component and generally the more of these you have on hand the better.
+                Some registers are reserved for special kinds of functions, with the main one of note being the
+                instruction pointer, or IP. The job of the IP is to track what piece of data the CPU
+                is currently looking at, so we know where to look for the next piece of data. If we think
+                of data living in memory sequentially, with Data 1 at <code>RAM[0][0]</code> and Data 2 at 
+                <code>RAM[0][1],</code> then after we process Data 1, we increment the IP one step so we know to 
+                go get Data 2 at the next index. Registers are also the part of memory that is most affected by 
+                how big a word is. Since registers are responsible for feeding words into a CPU, 
+                they are the same size as a word.
+                <br>
+                In our project, we had a word size of 32 bits. Because of this, we were able to codify
+                registers as an array that stored 32 bits each. Each index would correspond to one specific
+                register.
+            </p>
+
+            <p>
+                When simulating the CPU's interactions with memory, we wanted to make sure this idea
+                of on-chip distance carried over. To do this, we simply waited an increasing amount of 
+                time as we asked to retrieve memory from further and further components. Registers spent
+                no time waiting, whereas cache and RAM would spend 1 and 10 cycles respectively stalling.
+            </p>
+        </div>
+
+        <hr>
+
+        <div id="part2">
+            <h2>Part 2: Becoming Instructable</h2>
+            <p>
+                Now that we've established <i>where</i> we store things, it's time to think about <i>what</i>
+                we'll be storing. We introduced the idea of words before, but what do words really say? They tell
+                the CPU what to do through information called <b>instructions</b>. Instructions are special 
+                sequences of bits that a CPU is designed to recognize. For example, if I feed a specific CPU the
+                sequence of bits 01001 001 010, it will interpret that as an instruction to add the values 1 and 2.
+                CPU designers publish <b>instruction set architectures</b>, or <b>ISAs</b>, to describe the format and 
+                structure of sequences specific CPUs can interpret. Each ISA has its own structure describing the size
+                instructions could be, as well as how different parts of a bit sequence translate to adding or comparing
+                two values.
+            </p>
+
+            <p>
+                Our simulated CPU understood the MIPS-1 ISA. MIPS-1 has a fixed 32-bit word size, meaning that every
+                instruction had to fit within 32 bits; anything larger than that would be malformed and the CPU would
+                be unable to process it. Let's take a look at an example of a MIPS-1 instruction to see how this works.
+            </p>
+            <img src="/imgs/mips-instruction.png" alt="MIPS-1 arithmetic instruction format">
+            <p>
+                We can see here how the 32 bits of one instruction are split up. The first 6 bits, or "op" field, 
+                correspond what operation is performed. This would mean that something like 000001 corresponds to
+                addition, 000010 corresponds to subtraction, etc. The next three fields describe what registers are involved
+                in the operation to perform. The first two are the registers to use as operands for the operation, and the
+                third is the register to store the result into. The last two fields encode operation specific information,
+                such as the amount to shift for logical operations, so we can gloss over those. To put this idea into practice,
+                here is an instruction that subtracts registers 1 and 4 and stores it in register 3 (R3 = R1 - R4):
+                <br>
+                000010 00001 00100 00011 00000 000000
+            </p>
+
+            <p>
+                Now, hand writing instructions in this format is a punishment fit for Guantanamo, so we quickly
+                developed a tool that can help automate this process. It is the job of an <b>assembler</b> to take
+                assembly, a kind of ultra-simple programming language, and turn it into these 
+                <a class="link" href="#compilers" aria-describedby="footnote-label" id="compilers-ref">
+                    one word instructions.
+                </a>
+                So, instead of having to write the above instruction in binary format, we can write the much more 
+                understandable <code>sub r1 r4 r3</code>, feed that to the assembler, and it emits the above binary
+                value. Don't believe me? 
+                <a class="link" href="https://github.com/rsalz47/i-love-you-r3000/blob/main/docs/Assembler.md">
+                    Try it out yourself and prove me wrong!
+                </a>
+            </p>
+        </div>
+        
+        <hr>
+
+        <div id="part3">
+            <h2>Part 3: Processing</h2>
+            <p>
+                With the 'what' and the 'where' taken care of, we can now think about how these instructions are processed
+                on the processor. There are a couple different disciplines on how to divide this up, with the simplest
+                consisting of three stages, where the processor fetches an instruction, decodes it,
+                and executes the operation specified. There are many ways to refine and modularize these three
+                stages; in our project, for instance, we made use of a five stage processing pattern. These five stages are:
+                first fetching an instruction to process; decoding it; executing the operation said instruction encoded;
+                interacting with memory if needed; and finally writing back the results of the operation to places in memory.
+                Let's take a closer look at these.
+            </p>
+
+            <p>
+                The <b>fetch</b> stage of processing is 
+                <a class="link" href="#no-dogs" aria-describedby="footnote-label" id="no-dogs-ref">self-explanatory.</a>
+                In this part of processing, a new instruction is retrieved from somewhere in memory according to the IP.
+                While fetching largely happens in strictly linear order, there are occasions where we would need to fetch
+                from many disparate addresses for every instruction in a sequence. Consider a series of function calls or
+                many control flow structures like <code>if-else</code> blocks or loops: instructions may come from code
+                segments that are many addresses above or below the one we are currently executing. 
+            </p>
+
+            <p>
+                The <b>decode</b> stage is responsible for interpreting what a given instruction says to do. Earlier in this blog
+                post, we encoded a subtraction instruction into a 32-bit number. The decode stage does the opposite of this:
+                it slices an instruction up into its constituent parameters, and creates pathways to the respective registers
+                to be used. It also sends signals to other necessary bits of hardware around the CPU to perform whatever
+                operation the instruction dictates, such as an Algorithmic Logic Unit for mathematical operations, or 
+                another chip dedicated to cryptographic functions.
+            </p>
+
+            <p>
+                The <b>execute</b> stage executes the current instruction. Nothing much else to it, really. From a hardware
+                perspective this stage deserves more interest, as the CPU may talk to peripherals such as the aforementioned
+                cryptographic components, but besides that, it the CPU just does what it was instructed to do.
+            </p>
+
+            <p>
+                The <b>memory</b> stage is where any I/O instruction does its thing. Instructions such as loading or storing
+                from an address would wait until this stage to actually go about doing those memory operations. This also
+                would be the stage where a cache's contents would be updated
+                For instructions that don't access memory, this stage is ignored.
+            </p>
+
+            <p>
+                The <b>writeback</b> stage is where the result of the CPU's current computation is published. This could
+                consist of storing the result of an arithmetic or logical instruction in a register, for example, or changing
+                the IP based on the result of a jump instruction.
+            </p>
+
+            <p>
+                That's a surprising amount of steps to get through, isn't it? Even though every step individually is fairly 
+                intuitive to understand, a CPU gains a great deal of emergent complexity when we consider all these
+                steps simultaneously. To further complicate things, we should also consider the fact that a reasonable program
+                could easily have a thousand instructions, and that a computer runs at least several hundred of such programs
+                concurrently, and all of this needs to be fast enough that an end user like you or me doesn't feel any
+                latency when we move our mouse or type a key! The workload placed on a CPU is not one to take lightly.
+            </p>
+        </div>
+
+        <hr>
+
+        <div id="part4">
+            <h2>Part 4: Keeping the Plumbing on Time </h2>
+            <p>
+                There's one large inefficiency about the style of processing that we explained in the previous section:
+                we can only do one thing at a time. When one instruction enters the CPU, it must go through all five of
+                the above stages of processing before we can begin to fetch the next instruction. This isn't effective for
+                performance: to make a computer fast, we want to maximize the amount of instructions we can send through the 
+                CPU in very short time spans, a quantity known as its <b>throughput</b>. In order to improve throughput, we
+                need to increase the number of instructions we are processing at once.
+            </p>
+
+            <p>
+                Fortunately, the structure of the Fetch-Decode-Execute-Memory-Writeback loop lends itself well to modularization.
+                We can notice that each stage of the loop is <i>relatively</i> independent. Once we fetch an instruction and
+                pass it off to be decoded, there's no reason why we can't begin fetching another. Similarly, if one instruction
+                skips the memory stage, and its immediate successor makes use of memory, why not have that successor do I/O
+                while the first instruction writes back its contents to registers? If we generalize this idea, then we would
+                have each stage of the F-D-E-M-W loop operate in near complete independence of each other, with each stage
+                handling a unique instruction. With such a construction, we can now have five separate instructions running
+                at a time-- five times the throughput we had previous! This kind of construction is called a <b>pipeline</b>, 
+                because instructions flow from one stage to another, much like water through an actual pipe. Every CPU created 
+                today and onward uses pipelines instead of the monolithic style of processing; the performance boosts they
+                provide have proven indispensable in making computers run fast. 
+            </p>
+
+            <p>
+                Unfortunately, having so many independent instructions running at once does not come without its issues.
+                Since every stage of the pipeline is working on something different, we now need to coordinate communication
+                between the stages. To do so, we'll put every stage on a timer, called a <b>clock</b>. The clock is a pulse
+                of electricity that occurs in fixed quantities of time, called <b>clock cycles</b>. You can think of a clock
+                cycle much like the movement of the second hand on an analog clock. Every second, the second hand moves immediately
+                to its next position in discrete increments; there's no "in-between" time, just one second and the next.
+                The clock acts as a timer for stages to do their work, with the actual work occuring between cycles.
+                For example, say we are currently at clock cycle 0. When we receive the notice that we have entered clock
+                cycle 1, we begin fetching a new instruction. When we arrive at clock cycle 2, we have finished fetching
+                and deliver that instruction to the decode stage. Thus, the work needed to fetch an instruction is done
+                <i>between</i> clock cycles 1 and 2, with the handoff happening <i>at</i> clock cycle 2. Ideally, decoding
+                this instruction would also take one cycle, between cycles 2 and 3, with the following stages
+                following suit and only taking one clock cycle each.
+            </p>
+
+            <p>
+                In practice, we don't get to deal with ideal cases. Pipeline stages can take much longer than one measly
+                cycle-- memory is an especially common offender-- and because of this, things don't flow easily from one stage
+                to the next. The execute stage might not be able to pass forward its result, because the memory stage is 
+                stuck doing an outgoing memory access. Because of this, the decode stage cannot pass along a decoded
+                instruction to execute, and suddenly our entire pipeline is all gummed up! To account for this, every stage
+                of the pipeline needs the ability to wait, or <b>stall</b>, until it can pass forward the result of its
+                processing.
+                <br>
+                Jumping and branching also presents some noticeable issues. Normally, we'd want to fetch instructions in
+                linear order: instruction 5 would be fetched after instruction 4, which was fetched after instruction 3, etc.
+                In the case where we jump, though, this isn't the case; we could jump to any arbitrary address. It takes
+                a while for a jump to be processed, since that only occurs in the writeback stage when we publish it to
+                the IP. We now have four instructions in the previous four stages which are out of date! This motivates
+                the need to have a way to empty the pipeline and throw away everything we're working on, lest we 
+                start operating with the wrong instructions. Imagine if the first few lines of an <code>if-block</code>
+                always executed, even when you took the <code>else-block</code>.
+            </p>
+
+            <p>
+                These complications made the pipeline easily the most challenging part of the project to implement. In order
+                to keep ourselves straight and the instructions flowing, we conceptualized a "back-and-forth" flow throughout
+                the pipeline. Every pipeline stage had a struct associated with it that held pertinent information: the fetch
+                stage's struct had an address to fetch at and a place to store the fetched instruction, the decode struct
+                had fields to account for all possible operations and operands, and so on. At the top of every cycle, each stage
+                <i>in reverse order</i> would take the information in its struct and do its thing with it. This means that
+                the writeback stage would update registers as needed, and then set a boolean saying it is ready for new information.
+                Then the memory stage would do its thing, then execute, all the way back up the pipeline. This is the "backwards"
+                flow of execution. 
+                <br>
+                We would then follow the pipeline forward: the fetch stage would look at the decode struct and
+                check its boolean to see if it is currently available to receive information; if so, it would take its result
+                and populate the decode struct accordingly. The decode struct would then do the same with execute, flowing
+                forward through the pipeline. Once both back and forward motion is complete, we then increment the clock
+                cycle counter and start the process all over again. It was only more intensive than this paragraph made it 
+                out to be, don't worry.
+            </p>
+        </div>
+
+        <hr>
+
+        <div id="part5">
+            <h2>Conclusions: Reflecting and Speculating</h2>
+            <p>
+                Even with all the content I have covered thus far, there is still more yet to talk about. The scope
+                of our project encapsulated everything up until the five stage pipeline we just finished discussing, and even that
+                was quite a mighty task. If we go in to consider concepts like speculation, branch prediction, vectorization, 
+                out-of-order execution and further, then this blog post may seem even more insurmountable then it does at present.
+                I would love to tackle these ideas in future work, as they are now the bare necessities for modern processors. We had
+                our hands plenty full getting all of this up and running, though, so I anticipate a long while before I jump all the
+                way down to the metal again.
+            </p>
+
+            <p>
+                Don't let my exploration of further ideas come off in a "grass is always greener" sense, though! 
+                We built a CPU with plenty of sophistication to it, and we can do plenty with it in its current state. We can 
+                run benchmark tests to stress different aspects of the instruction pathway: perhaps a workload we construct 
+                exercises the cache a lot, and measures how much performance is affected because of it. Or,
+                maybe we construct a simple program consisting of tons of jumps, causing the pipeline to be constantly emptied out
+                as we get code from many different addresses. Maybe we just want to play around with the assembler and try to
+                write many different programs in this reduced programming language; that's also just swell!
+            </p>
+
+            <p>
+                I hope you found this entertaining, insightful and motivational, all in equal parts. If that's asking too much,
+                then I'll settle for just the first. 
+            </p>
+        </div>
+
+        <hr>
+
+        <footer>
+            <ol>
+                <h2 id="footnote-label"></h2>
+                <li id="word-size">
+                    A CPU's <b>word size</b> is length of the sequence of bits it can handle at once. When you
+                    hear about "32-bit" vs. "64-bit" CPU architectures, they are referring to its word size.
+                    <a class="link" href="#word-size-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="hierarchy">
+                    I use the term "lowest"-- and will go on to describe stuff vertically-- because
+                    of an idea known as the memory hierarchy. The core idea is that memory simultaneously widens
+                    and slows down as you get farther away from the CPU. This creates a natural pyramidal
+                    structure when visualizing memory, with each smaller level sitting on top of a bigger one.
+                    <a class="link" href="#hierarchy-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="line">
+                    Rows of memories are also interchangeably called <b>lines</b>, and in my experience
+                    line is the more common term.
+                    <a class="link" href="#line-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="address-space-size">
+                    With everything we've seen thus far, we can define yet another useful quantity: memory size.
+                    If each row of memory has W words consisting of B bits in C columns, then you have a total
+                    of WBC bits, or WBC/8 bytes of addressable memory.
+                    <a class="link" href="#address-space-size-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="suite-caches">
+                    For those particularly upset by this decision, I am planning a thorough
+                    benchmarking project exploring different associativity levels and caching policies. Its
+                    accompanying blog post will be stuffed with cache money jargon.
+                    <a class="link" href="#suite-caches-ref">&#8617</a>
+                </li>
+
+                <li id="compilers">
+                    The astute reader might notice that we don't write code in assembly, but rather
+                    programming languages. One of the stages of compilation is to turn the high-level
+                    source code us programmers write daily into this assembly language, which is then
+                    further transformed into instructions. Compiler theory is a deep and rich field,
+                    which is best illustrated by the fact its definitive text is referred to as
+                    "<a class="link" href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">
+                        the dragon book
+                    </a>."
+                    Clearly, compilers have quite a reputation!
+                    <a class="link" href="#compilers-ref" aria-label="Back to content">&#8617</a>
+                </li>
+
+                <li id="no-dogs">
+                    Though tragically bereft of any dogs. To make up for this, I always conceptualize a friendly
+                    little pooch inside the processor that rush out and brings new instructions to the CPU every
+                    clock cycle.
+                    <a class="link" href="#no-dogs-ref" aria-label="Back to content">&#8617</a>
+                </li>
+            </ol>
+        </footer>
+    </div>
+    
+    
+</body>
+</html>

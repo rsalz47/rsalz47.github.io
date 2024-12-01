@@ -2,19 +2,19 @@
     {
         "date": "[11-23-2024]",
         "hyperlink": "<i>Metaphor: ReFantazio</i> made for quite the read.",
-        "path": "/src/html/blog/refantazio.html",
+        "path": "/blog/refantazio.html",
         "description": "It just about inspired me to write my own novel about it. "
     },
     {
         "date": "[8-4-2024]",
         "hyperlink": "The Sopranos was absolutely phenomenal,",
-        "path": "/src/html/blog/sopranos.html",
+        "path": "/blog/sopranos.html",
         "description": "and I wrote down some thoughts about it on my blog."
     },
     {
         "date": "[5-8-2024]",
         "hyperlink":"My thoughts on the Gurren Lagann movies",
-        "path":"/src/html/blog/gurren-lagann-movies.html",
+        "path":"/blog/gurren-lagann-movies.html",
         "description":"just went up in the Blog tab. Spoiler: the series rocks."
     },
     {
@@ -24,37 +24,37 @@
     {
         "date": "[10-3-2023]",
         "hyperlink": "Lfrith build",
-        "path": "/src/html/gunpla/lfrith.html",
+        "path": "/gunpla/lfrith.html",
         "description":"available in Gunpla tab. Now featuring panel line before-and-afters!"
     },
     {
         "date": "[10-1-2023]",
         "hyperlink": "Xenoyear Part 0",
-        "path": "/src/html/blog/xenoyear/part0.html",
+        "path": "/blog/xenoyear/part0.html",
         "description":"posted in Blog tab."
     },
     {
         "date": "[9-24-2023]",
         "hyperlink":"Evangelion Units 01 and 02 build",
-        "path": "/src/html/gunpla/evas.html",
+        "path": "/gunpla/evas.html",
         "description": "available in Gunpla tab."
     },
     {
         "date": "[9-20-2023]",
         "hyperlink": "Char's Zaku II build",
-        "path": "/src/html/gunpla/char-zaku-ii.html",
+        "path": "/gunpla/char-zaku-ii.html",
         "description": "posted in Gunpla tab."
     },
     {
         "date": "[8-28-2023]",
         "hyperlink": "Blog home page",
-        "path": "/src/html/blog/blog.html",
+        "path": "/blog/blog.html",
         "description": "finished. Check it out, it's pretty spiffy!"
     },
     {
         "date":"[7-24-2023]",
         "hyperlink": "ILY R3k CPU Writeup",
-        "path":"/src/html/proj/ilyr3k.html",
+        "path":"/proj/ilyr3k.html",
         "description": "posted. It's a great overview of computer architecture basics as well, so give it a look!"
     }
 ]
